@@ -27,4 +27,13 @@ class OrderController extends Controller
     public function thankyou(){
         return view('thank_you');
     }
+
+
+    //dasboard
+    public function index(){
+        $orders = Order::latest()->paginate(10);
+        return view('dashboard.pages.order.index',[
+            'orders' => $orders
+        ]);
+    }
 }

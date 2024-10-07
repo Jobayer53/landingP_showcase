@@ -1,18 +1,69 @@
 @extends('dashboard.layouts.app')
-@section('title')Inventory @endsection
+@section('title')Orders @endsection
 @section('style')
-
+<link href="{{ asset('dashboard_assets/vendor/jquery-asColorPicker/css/asColorPicker.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="page-titles">
-    <h4>Inventory</h4>
+    <h4>Orders</h4>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('welcome')}}">Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Inventory</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Orders</a></li>
     </ol>
 </div>
-
 <div class="row">
+    <div class="col-lg-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Orders</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsvie">
+                    <table class="table table-hover table-responsive-sm" >
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($orders as $key => $data)
+                            <tr>
+                                <th class="text-black">{{ $loop->iteration  }}</th>
+                                <td>{{ $data->name}}</td>
+                                <td>{{ $data->mobile}}</td>
+                                <td>{{ $data->address}}</td>
+                                <td>{{ $data->total}}</td>
+                                <td>{{ $data->created_at->format('d-m-Y') }}</td>
+                                <td>{{ $data->status }}</td>
+                                <td>
+                                    <div class="">
+                                        <a data-value="{{ $data}}"  class="btn editBtn btn-primary btn-sm me-2"><i class="fa fa-pencil"></i></a>
+                                        {{-- <a data-value="{{ $data}}"    data-bs-target="#deleteModal2" data-bs-toggle="modal"  class="btn btn-danger btn-sm deleteBtn">Delete</a> --}}
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="8">No Data</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                {{ $orders->links('pagination::bootstrap-5') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- <div class="row">
     <div class="col-lg-12">
         <button type="button" class="btn btn-rounded btn-info"  data-bs-toggle="modal" data-bs-target=".createModal">
 
@@ -30,7 +81,7 @@
     <div class="col-lg-12">
 
     </div>
-</div>
+</div> --}}
 
 
 

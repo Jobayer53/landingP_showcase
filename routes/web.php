@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     //settings
     Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
     Route::post('/settings/update', [SettingController::class, 'update'])->name('setting.update');
-
+    //orders
+    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
 
 });

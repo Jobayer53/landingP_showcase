@@ -65,7 +65,7 @@ class AdminController extends Controller
                 'setting' => $setting
             ]);
         }else{
-            return redirect('/');
+            return redirect(route('welcome'));
         }
 
     }
@@ -79,7 +79,7 @@ class AdminController extends Controller
             if(Hash::check($request->password, $user->password)){
                 Auth::login($user);
                 flash()->option('position', 'top-right')->success('Login successfully');
-                return redirect('/');
+                return redirect(route('welcome'));
             }else{
                 return back()->with('error', 'Credentials not matched');
             }
