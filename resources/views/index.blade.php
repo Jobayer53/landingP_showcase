@@ -10,34 +10,58 @@
     />
 
     <title>Showcase</title>
-    <style>
-.loader {
-  border-top-color: #3498db;
-  animation: spin 1s infinite linear;
-}
+<style>
+    .loader {
+    border-top-color: #3498db;
+    animation: spin 1s infinite linear;
+    }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+    @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
 
-.hidden {
-  display: none;
-}
+    .hidden {
+    display: none;
+    }
 
-.form-container {
-  position: relative;
-}
+    .form-container {
+    position: relative;
+    }
 
-.faded {
-  opacity: 0.5;
-  pointer-events: none; /* Prevent interaction */
-}
-    </style>
+    .faded {
+    opacity: 0.5;
+    pointer-events: none; /* Prevent interaction */
+    }
+</style>
+<style>
+        /* For Webkit browsers (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #0d9488; /* Scrollbar thumb color */
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent; /* Make the track fully transparent */
+        border: none; /* Ensure no borders */
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        background: transparent !important; /* Ensure inner part of track is transparent */
+    }
+/* For Firefox */
+
+
+</style>
   </head>
   <body class="font-anek">
     <section class="bg-green-500">
@@ -544,7 +568,7 @@
       class="bg-teal-600 py-4 text-center text-[17px] font-medium text-white"
     >
       <div class="space-x-6">
-        <a
+        {{-- <a
           href="https://nutrix.com.bd/privacy-policy"
           target="_blank"
           class="hover:underline"
@@ -555,10 +579,10 @@
           target="_blank"
           class="hover:underline"
           >Terms & conditions</a
-        >
+        > --}}
       </div>
       <p class="mt-2">
-        Copyright © 2023 harbalhomesbd.com | All rights reserved
+        Copyright © 2024 <a href="https://synexdigital.com"> Synex Digital</a> | All rights reserved
       </p>
     </footer>
 

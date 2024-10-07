@@ -32,11 +32,12 @@
         </h3>
 
         <div class="flex justify-center pt-8">
-          <button
+          <a
+            href="{{ route('index') }}"
             class="bg-red-500 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-green-600"
           >
           নতুন অর্ডার করতে ক্লিক করুন
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -56,7 +57,7 @@
       class="bg-teal-600 py-4 text-center text-[17px] font-medium text-white"
     >
       <div class="space-x-6">
-        <a
+        {{-- <a
           href="https://nutrix.com.bd/privacy-policy"
           target="_blank"
           class="hover:underline"
@@ -67,75 +68,14 @@
           target="_blank"
           class="hover:underline"
           >Terms & conditions</a
-        >
+        > --}}
       </div>
       <p class="mt-2">
-        Copyright © 2023 harbalhomesbd.com | All rights reserved
+        Copyright © 2024 <a href="https://synexdigital.com"> Synex Digital</a> | All rights reserved
       </p>
     </footer>
 
     <!-- fopoter -->
-    {{-- <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-
-    <dotlottie-player src="https://lottie.host/3af63497-3b94-4582-a966-7a58d960472c/Q92o4Yu5Ue.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            let name = $('#name');
-            let address = $('#address');
-            let mobile = $('#mobile');
-            let nameError = $('#nameError');
-            let addressError = $('#addressError');
-            let mobileError = $('#mobileError');
-            let btn = $('#submitBtn');
-            let form = $('#payment_form');
-
-            btn.on('click', function() {
-                if(name.val().trim() === "" || address.val().trim() === "" || mobile.val().trim() === "") {
-                    if(name.val().trim() === "") { nameError.removeClass('hidden'); }
-                    if(address.val().trim() === "") { addressError.removeClass('hidden'); }
-                    if(mobile.val().trim() === "") { mobileError.removeClass('hidden'); }
-                }
-                else{
-                    if(mobile.val().trim()){
-
-                        if(!mobile.length == 11 || !mobile.val().startsWith('01')){
-                            mobileError.val('মোবাইল নাম্বার হতে হবে');
-                            mobileError.removeClass('hidden');
-                        }else{
-                            mobileError.addClass('hidden');
-                            form.submit();
-                            $(".set_faded").addClass("faded");
-                            $("#loader-overlay").removeClass("hidden");
-                        }
-                    }
-                }
-            });
-
-            // Add event listeners for the blur event (when the user leaves the input field)
-            name.on('input', function() {
-              if(name.val().trim() === "") {
-                nameError.removeClass('hidden');
-              }else{
-                nameError.addClass('hidden');
-              }
-            });
-            address.on('input', function() {
-              if(address.val().trim() === "") {
-                addressError.removeClass('hidden');
-              }else{
-                addressError.addClass('hidden');
-              }
-            });
-            mobile.on('input', function() {
-              if(mobile.val().trim() === "" || mobile.val().length < 11 || mobile.val().length > 11) {
-                mobileError.removeClass('hidden');
-              }else{
-                mobileError.addClass('hidden');
-              }
-            });
-        });
-
-    </script>
+   
   </body>
 </html>
