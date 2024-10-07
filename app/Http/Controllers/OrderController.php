@@ -19,8 +19,12 @@ class OrderController extends Controller
         $order->name = $request->name;
         $order->mobile = $request->mobile;
         $order->address = $request->address;
-        $order->total_price = $request->total_price;
+        $order->total = $request->total_price;
         $order->save();
-        
+        return redirect()->route('thankyou');
+
+    }
+    public function thankyou(){
+        return view('thank_you');
     }
 }

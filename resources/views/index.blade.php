@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css?family=Anek Bangla"
       rel="stylesheet"
     />
+
     <title>Showcase</title>
     <style>
 .loader {
@@ -351,16 +352,17 @@
       </div>
 
       <div
-        class=" form-container max-w-[1000px] bg-white py-16 px-8 w-full mx-auto flex flex-col md:flex-row justify-between rounded-[15px] border-4 border-[#2ED2C2]"
+        class=" form-container  max-w-[1000px] bg-white py-16 px-8 w-full mx-auto flex flex-col md:flex-row justify-between rounded-[15px] border-4 border-[#2ED2C2]"
         style="box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.63)"
       >
-
-      <div id="loader-overlay" class="hidden absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+      <div id="loader-overlay" class=" hidden absolute "  style="top:35%; left: 35%;" >
+        <iframe  src="https://lottie.host/embed/3af63497-3b94-4582-a966-7a58d960472c/Q92o4Yu5Ue.json"></iframe>
+        {{-- <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div> --}}
       </div>
 
+
         <!-- Left Section -->
-        <div class="w-full md:w-[48%] mb-8 md:mb-0">
+        <div class="w-full md:w-[48%] mb-8 md:mb-0 set_faded">
 
           <div>
             <h2 class="text-xl font-semibold mb-6">প্রডাক্ট শিপিং ডিটেলস</h2>
@@ -434,7 +436,7 @@
         </div>
 
         <!-- Right Section -->
-        <div class="w-full md:w-[48%]">
+        <div class="w-full md:w-[48%] set_faded">
           <div>
             <h2 class="text-xl font-semibold mb-4">আপনার অর্ডার</h2>
 
@@ -532,6 +534,7 @@
           </button>
         </div>
       </div>
+
     </section>
 
     <!--payment form  -->
@@ -560,6 +563,9 @@
     </footer>
 
     <!-- fopoter -->
+    {{-- <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+    <dotlottie-player src="https://lottie.host/3af63497-3b94-4582-a966-7a58d960472c/Q92o4Yu5Ue.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player> --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
@@ -586,8 +592,8 @@
                             mobileError.removeClass('hidden');
                         }else{
                             mobileError.addClass('hidden');
-                            // form.submit();
-                            // $(".form-container").addClass("faded");
+                            form.submit();
+                            $(".set_faded").addClass("faded");
                             $("#loader-overlay").removeClass("hidden");
                         }
                     }
