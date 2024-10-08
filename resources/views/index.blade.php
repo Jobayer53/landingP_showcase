@@ -84,11 +84,11 @@
         </h3>
 
         <div class="flex justify-center pt-8">
-          <button
+          <a href="#form-container"
             class="bg-red-500 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-green-600"
           >
             অর্ডার করতে ক্লিক করুন
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -98,7 +98,7 @@
         <h2
           class="bg-[#00b294] text-center py-4 text-white text-[20px] sm:text-[22px] font-semibold rounded-md"
         >
-          কেনো আপনার ত্রিফলা রস খাওয়া দরকার ?
+        কেন আপনি এই প্রোডাক্ট নিবেন ?
         </h2>
 
         <div
@@ -180,24 +180,25 @@
       >
         <!-- Countdown Timer -->
         <div
+        id="timer"
           class="text-[30px] font-normal text-white text-center flex gap-x-3 flex-wrap justify-center"
         >
           <div
             class="bg-[#FF184B] w-[120px] sm:w-[142px] text-white text-center font-semibold py-4 px-6 rounded-[25px]"
           >
-            <p class="text-xl sm:text-2xl">23</p>
+            <p id="hours" class="text-xl sm:text-2xl">24</p>
             <p class="text-sm sm:text-base">Hours</p>
           </div>
           <div
             class="bg-[#FF184B] w-[120px] sm:w-[142px] text-white text-center font-semibold py-4 px-6 rounded-[25px]"
           >
-            <p class="text-xl sm:text-2xl">23</p>
+            <p id="minutes" class="text-xl sm:text-2xl">00</p>
             <p class="text-sm sm:text-base">Minutes</p>
           </div>
           <div
             class="bg-[#FF184B] w-[120px] sm:w-[142px] text-white text-center font-semibold py-4 px-6 rounded-[25px]"
           >
-            <p class="text-xl sm:text-2xl">23</p>
+            <p id="seconds" class="text-xl sm:text-2xl">00</p>
             <p class="text-sm sm:text-base">Seconds</p>
           </div>
         </div>
@@ -231,12 +232,13 @@
         </div>
 
         <!-- Order Button -->
-        <button
+        <a
+          href="#form-container"
           class="bg-[#FF184B] text-white py-3 px-6 rounded-full border-2 border-white shadow-lg hover:bg-[#00AB99] transition duration-300 ease-in-out mt-10 text-xl sm:text-[20px] font-semibold"
           style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
         >
           অর্ডার করতে ক্লিক করুন
-        </button>
+        </a>
       </div>
     </section>
 
@@ -376,6 +378,7 @@
       </div>
 
       <div
+        id="form-container"
         class=" form-container  max-w-[1000px] bg-white py-16 px-8 w-full mx-auto flex flex-col md:flex-row justify-between rounded-[15px] border-4 border-[#2ED2C2]"
         style="box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.63)"
       >
@@ -648,6 +651,36 @@
             });
         });
 
+    </script>
+     <script>
+        window.onload = function() {
+            var hoursSpan = document.getElementById('hours');
+            var minutesSpan = document.getElementById('minutes');
+            var secondsSpan = document.getElementById('seconds');
+
+            function startTimer(duration, display) {
+                var timer = duration, hours, minutes, seconds;
+                setInterval(function () {
+                    hours = parseInt(timer / 3600, 10);
+                    minutes = parseInt((timer % 3600) / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    hours = hours < 10 ? "0" + hours : hours;
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    hoursSpan.textContent = hours;
+                    minutesSpan.textContent = minutes;
+                    secondsSpan.textContent = seconds;
+
+                    if (--timer < 0) {
+                        timer = duration;
+                    }
+                }, 1000);
+            }
+
+            startTimer(24 * 3600 + 00 * 60 + 00, hoursSpan, minutesSpan, secondsSpan);
+        };
     </script>
   </body>
 </html>

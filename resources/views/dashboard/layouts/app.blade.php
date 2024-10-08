@@ -96,7 +96,7 @@
         Scripts
     ***********************************-->
 	<!-- Required vendors -->
-    //delete modals
+    {{-- delete modals --}}
     <div class="modal fade" id="deleteModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\landingPageController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\WelcomeController;
 
@@ -33,5 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings/update', [SettingController::class, 'update'])->name('setting.update');
     //orders
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+    //landing page
+    Route::get('/lading-page',[landingPageController::class, 'index'])->name('landing-page.index');
 
 });
