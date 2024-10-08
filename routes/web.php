@@ -36,5 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
     //landing page
     Route::get('/lading-page',[landingPageController::class, 'index'])->name('landing-page.index');
+    Route::post('/lading-page/store',[landingPageController::class, 'store'])->name('landing-page.store');
 
 });

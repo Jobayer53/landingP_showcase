@@ -1,5 +1,5 @@
 @extends('dashboard.layouts.app')
-@section('title')Landing Page @endsection
+@section('title')  @endsection
 @section('style')
 <style>
     .test-report, .prescription{
@@ -48,7 +48,8 @@
             <h4 class="">Landing Page</h4>
         </div>
         <div class="card-body">
-            <form action="">
+            <form action="{{ route('landing-page.store') }}" method="POST">
+                @csrf
                 <div class="mb-3">
                     <label for="" class="form-label">Header</label>
                     <input type="text" class="form-control" name="header" id="" placeholder="Header">
@@ -83,7 +84,7 @@
                         <div class="col-lg-6">
                             <label for="" class="form-label me-4">Image </label>
 
-                            <input  type="file" class=" upload form-control" name="image"   onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" >
+                            <input  type="file" class=" upload form-control" name="image" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" >
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Current Image:</label> <br>
@@ -131,7 +132,7 @@
                         </div>
                         <div  class="mb-3">
                             <label for="" class="form-label">Benefits List</label>
-                            <input type="text" class="form-control" name="benefit_header" id="" placeholder=" Benefits list">
+                            <input type="text" class="form-control" name="benefit_list[]" id="" placeholder=" Benefits list">
                         </div>
                         <div id="benefit" class=""></div>
                         <div class="mb-3">
@@ -209,11 +210,16 @@
             // upload video or link
             $('.yt').on('click', function() {
                 $('#yt_input').removeClass('d-none');
+                $('#yt_input').attr('disabled', false);
                 $('#upload_input').addClass('d-none');
+                $('#upload_input').attr('disabled', true);
+
             });
             $('.upload').on('click', function() {
                 $('#upload_input').removeClass('d-none');
+                $('#upload_input').attr('disabled', false);
                 $('#yt_input').addClass('d-none');
+                $('#yt_input').attr('disabled', true);
             });
             // add benefits list
             $('#add-benefit').on('click', function() {
