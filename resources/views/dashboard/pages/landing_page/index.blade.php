@@ -1,7 +1,37 @@
 @extends('dashboard.layouts.app')
 @section('title')Landing Page @endsection
 @section('style')
-
+<style>
+    .test-report, .prescription{
+        display: none;
+    }
+    .active {
+        display: block;
+    }
+    .masonry {
+        column-count: 3;
+        column-gap: 1rem;
+    }
+    .item {
+        break-inside: avoid;
+    }
+    .icons{
+        position: absolute;
+        margin-top: -39px;
+    }
+   .icons a {
+        display: inline-block;
+        margin: 0 10px;
+        color: #fff; /* White color for the icons */
+        font-size: 11px; /* Icon size */
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        padding: 7px;
+        border-radius: 50%;
+    }
+    .icons a:hover{
+        color: red;
+    }
+</style>
 @endsection
 @section('content')
 <div class="page-titles">
@@ -56,10 +86,10 @@
                             <input  type="file" class=" upload form-control" name="image"   onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" >
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label for="" class="form-label"> Current Image:</label> <br>
+                                    <label for="" class="form-label mt-2"> Current Image:</label> <br>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label for="" class="form-label"> Preview:</label> <br>
+                                    <label for="" class="form-label mt-2"> Preview:</label> <br>
                                     <img class="d-none" id="blah" alt="Uploaded image" width="100%" height="auto" />
                                 </div>
                             </div>
@@ -72,7 +102,26 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label"> Image (customer feedback)</label>
-                    <input type="file" class="form-control" name="feedback_image" id="" placeholder="" multiple>
+                    <input  type="file" class=" upload2 form-control" name="feedback_image" id="" placeholder="" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" >
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="" class="form-label mt-2"> Preview:</label>
+                            <img class="d-none" id="blah2" alt="Uploaded image" width="100%" height="auto" />
+                        </div>
+                        <div class="col-lg-9">
+                            <label for="" class="form-label mt-2"> Images: </label>
+                            <div class="masonry">
+                                <div class="item mb-4    ">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s" class="img-fluid rounded shadow-sm " alt="Prescription Image">
+                                    <div class="icons">
+                                        <a href=""class=" " title="Delete"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                <div class="row">
                     <div class="col-lg-6">
@@ -91,9 +140,18 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <div class="col-lg-6">
+                        <div class="    ">
                             <label for="" class="form-label me-4">Benefit Image </label>
-                            <input  type="file" class=" form-control" name="benefit_image" >
+                            <input  type="file" class=" upload3 form-control" name="benefit_image" onchange="document.getElementById('blah3').src = window.URL.createObjectURL(this.files[0])" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="" class="form-label mt-2"> Current Image:</label> <br>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="" class="form-label mt-2"> Preview:</label> <br>
+                                    <img class="d-none" id="blah3" alt="Uploaded image" width="100%" height="auto" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                </div>
@@ -109,7 +167,16 @@
                     <div class="row">
                         <div class="col-4">
                             <label for="" class="form-label">Product Image</label>
-                            <input type="file" class="form-control" name="product_image" id="" placeholder="" >
+                            <input type="file" class=" upload4 form-control" name="product_image" id="" placeholder="" onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="" class="form-label mt-2"> Current Image:</label> <br>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="" class="form-label mt-2"> Preview:</label> <br>
+                                    <img class="d-none" id="blah4" alt="Uploaded image" width="100%" height="auto" />
+                                </div>
+                            </div>
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Product Name</label>
@@ -121,7 +188,9 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="mb-3 mt-5 text-center">
+                    <button class="btn btn-primary " >Add</button>
+                </div>
             </form>
         </div>
        </div>
@@ -130,6 +199,9 @@
 
 @endsection
 @section('script')
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<!-- or -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
     <script>
         $(document).ready(function() {
             //side bar off
@@ -160,6 +232,15 @@
             // upload image preview
             $(".upload").change(function() {
                 $('#blah').removeClass('d-none');
+            });
+            $(".upload2").change(function() {
+                $('#blah2').removeClass('d-none');
+            });
+            $(".upload3").change(function() {
+                $('#blah3').removeClass('d-none');
+            });
+            $(".upload4").change(function() {
+                $('#blah4').removeClass('d-none');
             });
 
 
