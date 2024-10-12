@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\BenefitList;
 use App\Models\LandingPage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,12 +11,16 @@ class landingPageController extends Controller
 {
     public function index(){
         $landing = LandingPage::find(1);
+        $feedback = explode(',', $landing?->feedback_image);
+        // dd($feedback);
         return view('dashboard.pages.landing_page.index',[
-            'landing' => $landing
+            'landing' => $landing,
+            'feedback' => $feedback
         ]);
     }
     public function store(Request $request){
         // dd($request->all());
+
         $x = false;
         if(is_null(LandingPage::find(1))){
             $landing = new LandingPage;
@@ -36,8 +41,11 @@ class landingPageController extends Controller
             $landing->video = $file_name;
             $landing->youtube_link = null;
         }
-        if($request->youtube_link){
+        if($request->yt_link){
             $landing->youtube_link = $request->yt_link;
+            if($landing->video){
+                unlink(public_path('uploads/landing/'.$landing->video));
+            }
             $landing->video = null;
         }
         if($request->image){
@@ -51,15 +59,23 @@ class landingPageController extends Controller
         }
         $landing->quote_two  = $request->quote_two;
         if($request->feedback_image){
-            if($landing->feedback_image){
-                unlink(public_path('uploads/landing/'.$landing->feedback_image));
-            }
             $file = $request->file('feedback_image');
             $feedback_name = 'FEEDBACK-IMAGE-' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/landing/'), $feedback_name);
-            $landing->feedback_image = $feedback_name;
+            if($landing->feedback_image){
+                $exsisting = explode(',', $landing->feedback_image);
+                array_push($exsisting, $feedback_name);
+                $landing->feedback_image = implode(',', $exsisting);
+            }else{
+                $landing->feedback_image = $feedback_name;
+            }
         }
         $landing->benefit_title  = $request->benefit_header;
+        $benefit_lists = $request->benefit_list;
+        $lists = BenefitList::all();
+        if($benefit_lists){
+            
+        }
         if($request->benefit_image){
             if($landing->benefit_image){
                 unlink(public_path('uploads/landing/'.$landing->benefit_image));
@@ -83,7 +99,7 @@ class landingPageController extends Controller
         $landing->product_name = $request->product_name;
         $landing->product_price = $request->product_price;
         $landing->save();
-        flash()->option('position', 'top-right')->success('Landing Page Data'.$x?'Created':' Updated'.' Successfully');
+        flash()->option('position', 'top-right')->success('Landing Page Data'.($x?' Created':' Updated').' Successfully');
         return back();
 
 

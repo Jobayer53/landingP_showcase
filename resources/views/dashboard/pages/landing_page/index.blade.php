@@ -52,15 +52,15 @@
                 @csrf
                 <div class="mb-3">
                     <label for="" class="form-label">Header</label>
-                    <input type="text" class="form-control" name="header" id="" placeholder="Header" value="{{ $landing->header }}">
+                    <input type="text" class="form-control" name="header" id="" placeholder="Header" value="{{ $landing?->header }}">
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Short Description</label>
-                    <textarea class="form-control" name="short_desc" id="" cols="30" rows="7" placeholder="">{{ $landing->short_description }}</textarea>
+                    <textarea class="form-control" name="short_desc" id="" cols="30" rows="7" placeholder="">{{ $landing?->short_description }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Quote One</label>
-                    <input type="text" class="form-control" name="quote_one" id="" placeholder="Quote" value="{{ $landing->quote_one }}">
+                    <input type="text" class="form-control" name="quote_one" id="" placeholder="Quote" value="{{ $landing?->quote_one }}">
                 </div>
                 <div class="mb-3">
                     <div class="row">
@@ -78,17 +78,17 @@
                                  Upload
                                 </label>
                             </div>
-                            <input id="yt_input" type="text" class="form-control" name="yt_link" id="" placeholder="  <iframe class='w-full aspect-square rounded-md'  src='https://www.youtube.com/embed/jEQoEKMZ7Qc?si=slkFXIlIjzXnb6La' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen>" value="{{ $landing->youtube_link }}">
+                            <input id="yt_input" type="text" class="form-control" name="yt_link" id="" placeholder="  <iframe class='w-full aspect-square rounded-md'  src='https://www.youtube.com/embed/jEQoEKMZ7Qc?si=slkFXIlIjzXnb6La' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen>" value="{{ $landing?->youtube_link }}">
 
                             <input id="upload_input" type="file" class="d-none form-control" name="uploaded_video" accept="video/mp4">
-                            @if($landing->video )
+                            @if($landing?->video )
                             <video  class="mt-3"  width="90%" height="auto" controls >
-                                <source >
-                                    <source src="{{ public_path('uploads/landing/'.$landing->video) }}" type="video/mp4">
-                                        <source src="{{ public_path('uploads/landing/'.$landing->video) }}" type="video/ogg">
+
+                                    <source src="{{ asset('uploads/landing/'.$landing->video) }}" type="video/mp4">
+                                        <source src="{{ asset('uploads/landing/'.$landing->video) }}" type="video/ogg">
                             </video>
                             @endif
-                            @if($landing->youtube_link )
+                            @if($landing?->youtube_link )
                             <div class="mt-3">
 
                                 {!!  $landing->youtube_link !!}
@@ -102,6 +102,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Current Image:</label> <br>
+                                    <img src="{{ asset('uploads/landing/'.$landing?->image) }}" class="" id="" alt="" width="100%" height="auto" />
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Preview:</label> <br>
@@ -126,12 +127,16 @@
                         <div class="col-lg-9">
                             <label for="" class="form-label mt-2"> Images: </label>
                             <div class="masonry">
-                                <div class="item mb-4    ">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s" class="img-fluid rounded shadow-sm " alt="Prescription Image">
-                                    <div class="icons">
-                                        <a href=""class=" " title="Delete"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </div>
+                                @if($landing?->feedback_image )
+                                    @foreach ($feedback as $data)
+                                        <div class="item mb-4">
+                                            <img src="{{ asset('uploads/landing/'.$data) }}" class="img-fluid rounded shadow-sm " alt="Prescription Image">
+                                            <div class="icons">
+                                                <a href=""class=" " title="Delete"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -142,7 +147,7 @@
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="" class="form-label"> Benefit Title</label>
-                            <input type="text" class="form-control" name="benefit_header" id="" placeholder=" Benefit Title line" >
+                            <input type="text" class="form-control" name="benefit_header" id="" placeholder=" Benefit Title line" value="{{ $landing?->benefit_title }}" >
                         </div>
                         <div  class="mb-3">
                             <label for="" class="form-label">Benefits List</label>
@@ -161,6 +166,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Current Image:</label> <br>
+                                    <img src="{{ asset('uploads/landing/'.$landing?->benefit_image) }}" class="" id="" alt="" width="100%" height="auto" />
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Preview:</label> <br>
@@ -240,7 +246,7 @@
             $('#add-benefit').on('click', function() {
                 let benefit = $('#benefit');
                 let data = `<div class="benefit-list mb-3 mt-3">
-                        <input type="text" class="form-control" name="benefit_header[]" placeholder="Benefits list" style="display: inline-block; margin-right: -58px">
+                        <input type="text" class="form-control" name="benefit_list[]" placeholder="Benefits list" style="display: inline-block; margin-right: -58px">
                         <span class="remove-benefit btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
                     </div>`;
 
