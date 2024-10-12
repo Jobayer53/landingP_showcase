@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('header')->nullable();
             $table->longText('short_description')->nullable();
             $table->string('quote_one')->nullable();
-            $table->string('video')->nullable();
+
+            $table->longText('youtube_link')->nullable();
+            $table->longText('video')->nullable();
             $table->string('image')->nullable();
             $table->string('quote_two')->nullable();
+            $table->string('feedback_image')->nullable();
+            $table->string('benefit_image')->nullable();
             $table->string('benefit_title')->nullable();
             $table->string('uses_title')->nullable();
             $table->longText('uses')->nullable();

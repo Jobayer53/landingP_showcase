@@ -9,52 +9,81 @@ use App\Http\Controllers\Controller;
 class landingPageController extends Controller
 {
     public function index(){
-        return view('dashboard.pages.landing_page.index');
+        $landing = LandingPage::find(1);
+        return view('dashboard.pages.landing_page.index',[
+            'landing' => $landing
+        ]);
     }
     public function store(Request $request){
         // dd($request->all());
-        $landing = new LandingPage;
-        $landing->header = $request->header;
-        $landing->short_desc  = $request->short_desc;
-        $landing->quote_one  = $request->quote_one;
-        if($request->uploader_video){
-            $file = $request->file('uploader_video');
-            $file_name = 'FILE-' . time() . '.' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/landing/'), $file_name);
-            $landing->video = $file->getClientOriginalName();
+        $x = false;
+        if(is_null(LandingPage::find(1))){
+            $landing = new LandingPage;
+            $x = true;
+        }else{
+            $landing = LandingPage::find(1);
         }
-        $request->yt_link ? $landing->video = $request->yt_link : '';
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $image_name = 'IMAGE-' . time() . '.' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/landing/'), $image_name);
+        $landing->header = $request->header;
+        $landing->short_description  = $request->short_desc;
+        $landing->quote_one  = $request->quote_one;
+        if($request->uploaded_video){
+            if($landing->video){
+                unlink(public_path('uploads/landing/'.$landing->video));
+            }
+            $video_file = $request->file('uploaded_video');
+            $file_name = 'FILE-' . time() . '.' . $video_file->getClientOriginalExtension();
+            $video_file->move(public_path('uploads/landing/'), $file_name);
+            $landing->video = $file_name;
+            $landing->youtube_link = null;
+        }
+        if($request->youtube_link){
+            $landing->youtube_link = $request->yt_link;
+            $landing->video = null;
+        }
+        if($request->image){
+            if($landing->image){
+                unlink(public_path('uploads/landing/'.$landing->image));
+            }
+            $image_file = $request->file('image');
+            $image_name = 'IMAGE-' . time() . '.' . $image_file->getClientOriginalExtension();
+            $image_file->move(public_path('uploads/landing/'), $image_name);
             $landing->image = $image_name;
         }
         $landing->quote_two  = $request->quote_two;
-        if($request->hasFile('feedback_image')){
+        if($request->feedback_image){
+            if($landing->feedback_image){
+                unlink(public_path('uploads/landing/'.$landing->feedback_image));
+            }
             $file = $request->file('feedback_image');
-            $feedback_name = 'FEEDBACK-IMAGE-' . time() . '.' . $file->getClientOriginalName();
+            $feedback_name = 'FEEDBACK-IMAGE-' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/landing/'), $feedback_name);
             $landing->feedback_image = $feedback_name;
         }
         $landing->benefit_title  = $request->benefit_header;
-        if($request->hasFile('benefit_image')){
-            $file = $request->file('benefit_image');
-            $benefit_name = 'BENEFIT-IMAGE-' . time() . '.' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/landing/'), $benefit_name);
+        if($request->benefit_image){
+            if($landing->benefit_image){
+                unlink(public_path('uploads/landing/'.$landing->benefit_image));
+            }
+            $benefit_file = $request->file('benefit_image');
+            $benefit_name = 'BENEFIT-IMAGE-' . time() . '.' . $benefit_file->getClientOriginalExtension();
+            $benefit_file->move(public_path('uploads/landing/'), $benefit_name);
             $landing->benefit_image = $benefit_name;
         }
         $landing->uses_title = $request->uses_title;
         $landing->uses  = $request->uses;
-        if($request->hasFile('product_image')){
-            $file = $request->file('product_image');
-            $product_name = 'PRDUCT-IMAGE-' . time() . '.' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/landing/'), $product_name);
+        if($request->product_image){
+            if($landing->product_image){
+                unlink(public_path('uploads/landing/'.$landing->product_image));
+            }
+            $product_file = $request->file('product_image');
+            $product_name = 'PRDUCT-IMAGE-' . time() . '.' . $product_file->getClientOriginalExtension();
+            $product_file->move(public_path('uploads/landing/'), $product_name);
             $landing->product_image = $product_name;
         }
         $landing->product_name = $request->product_name;
         $landing->product_price = $request->product_price;
         $landing->save();
+        flash()->option('position', 'top-right')->success('Landing Page Data'.$x?'Created':' Updated'.' Successfully');
         return back();
 
 

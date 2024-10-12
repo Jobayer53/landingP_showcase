@@ -48,19 +48,19 @@
             <h4 class="">Landing Page</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('landing-page.store') }}" method="POST">
+            <form action="{{ route('landing-page.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="" class="form-label">Header</label>
-                    <input type="text" class="form-control" name="header" id="" placeholder="Header">
+                    <input type="text" class="form-control" name="header" id="" placeholder="Header" value="{{ $landing->header }}">
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Short Description</label>
-                    <textarea class="form-control" name="short_desc" id="" cols="30" rows="7" placeholder=""></textarea>
+                    <textarea class="form-control" name="short_desc" id="" cols="30" rows="7" placeholder="">{{ $landing->short_description }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Quote One</label>
-                    <input type="text" class="form-control" name="quote_one" id="" placeholder="Quote">
+                    <input type="text" class="form-control" name="quote_one" id="" placeholder="Quote" value="{{ $landing->quote_one }}">
                 </div>
                 <div class="mb-3">
                     <div class="row">
@@ -78,8 +78,22 @@
                                  Upload
                                 </label>
                             </div>
-                            <input id="yt_input" type="text" class="form-control" name="yt_link" id="" placeholder="  <iframe class='w-full aspect-square rounded-md'  src='https://www.youtube.com/embed/jEQoEKMZ7Qc?si=slkFXIlIjzXnb6La' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen>">
-                            <input id="upload_input" type="file" class="d-none form-control" name="uploaded_video" >
+                            <input id="yt_input" type="text" class="form-control" name="yt_link" id="" placeholder="  <iframe class='w-full aspect-square rounded-md'  src='https://www.youtube.com/embed/jEQoEKMZ7Qc?si=slkFXIlIjzXnb6La' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen>" value="{{ $landing->youtube_link }}">
+
+                            <input id="upload_input" type="file" class="d-none form-control" name="uploaded_video" accept="video/mp4">
+                            @if($landing->video )
+                            <video  class="mt-3"  width="90%" height="auto" controls >
+                                <source >
+                                    <source src="{{ public_path('uploads/landing/'.$landing->video) }}" type="video/mp4">
+                                        <source src="{{ public_path('uploads/landing/'.$landing->video) }}" type="video/ogg">
+                            </video>
+                            @endif
+                            @if($landing->youtube_link )
+                            <div class="mt-3">
+
+                                {!!  $landing->youtube_link !!}
+                            </div>
+                            @endif
                         </div>
                         <div class="col-lg-6">
                             <label for="" class="form-label me-4">Image </label>
@@ -213,11 +227,12 @@
                 $('#yt_input').attr('disabled', false);
                 $('#upload_input').addClass('d-none');
                 $('#upload_input').attr('disabled', true);
-
+                $('.video').addClass('d-none');
             });
             $('.upload').on('click', function() {
                 $('#upload_input').removeClass('d-none');
                 $('#upload_input').attr('disabled', false);
+                $('.video').removeClass('d-none');
                 $('#yt_input').addClass('d-none');
                 $('#yt_input').attr('disabled', true);
             });
