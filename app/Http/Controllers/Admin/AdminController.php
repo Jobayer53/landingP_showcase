@@ -61,9 +61,14 @@ class AdminController extends Controller
     {
         if(!Auth::check()){
             $setting = Setting::first();
-            return view('dashboard.auth.login',[
-                'setting' => $setting
-            ]);
+            if($setting){
+                return view('dashboard.auth.login',[
+                    'setting' => $setting
+                ]);
+            }else{
+
+                return redirect(route('welcome'));
+            }
         }else{
             return redirect(route('welcome'));
         }

@@ -12,10 +12,12 @@ class landingPageController extends Controller
     public function index(){
         $landing = LandingPage::find(1);
         $feedback = explode(',', $landing?->feedback_image);
+        $benefitLists = BenefitList::where('landing_page_id',$landing->id)->get();
         // dd($feedback);
         return view('dashboard.pages.landing_page.index',[
             'landing' => $landing,
-            'feedback' => $feedback
+            'feedback' => $feedback,
+            'benefitLists' => $benefitLists
         ]);
     }
     public function store(Request $request){
@@ -71,11 +73,8 @@ class landingPageController extends Controller
             }
         }
         $landing->benefit_title  = $request->benefit_header;
-        $benefit_lists = $request->benefit_list;
-        $lists = BenefitList::all();
-        if($benefit_lists){
-            
-        }
+
+
         if($request->benefit_image){
             if($landing->benefit_image){
                 unlink(public_path('uploads/landing/'.$landing->benefit_image));
@@ -99,6 +98,31 @@ class landingPageController extends Controller
         $landing->product_name = $request->product_name;
         $landing->product_price = $request->product_price;
         $landing->save();
+         // benefit list
+         $benefitLists = $request->input('benefit_list', []);
+
+         // Assuming there's a user ID or some identifier to associate with the benefits
+         $id = $landing->id;
+
+         // Fetch current benefits from database to compare
+         $currentBenefits = BenefitList::where('landing_page_id', $id)->get();
+
+         // Sync the benefits - Add new, update existing, and remove old
+         $newBenefits = array_diff($benefitLists, $currentBenefits->pluck('list')->toArray());
+         $removedBenefits = array_diff($currentBenefits->pluck('list')->toArray(), $benefitLists);
+
+         // Remove old benefits
+         foreach ($removedBenefits as $benefit) {
+             BenefitList::where('landing_page_id', $id)->where('list', $benefit)->delete();
+         }
+
+         // Add new benefits
+         foreach ($newBenefits as $benefit) {
+             BenefitList::create([
+                 'landing_page_id' => $id,
+                 'list' => $benefit
+             ]);
+         }
         flash()->option('position', 'top-right')->success('Landing Page Data'.($x?' Created':' Updated').' Successfully');
         return back();
 

@@ -151,7 +151,14 @@
                         </div>
                         <div  class="mb-3">
                             <label for="" class="form-label">Benefits List</label>
-                            <input type="text" class="form-control" name="benefit_list[]" id="" placeholder=" Benefits list">
+                            @foreach ($benefitLists as $benefit)
+                            <div class="benefit-list mb-3 mt-3">
+                                <input type="hidden" name="benefit_id[]" value="{{ $benefit->id }}">
+                                <input type="text" class="form-control" name="benefit_list[]" value="{{ $benefit->list }}" required style="display: inline-block; margin-right: -58px;">
+                                <span data-value="{{  }}" class="removeList btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
+                            </div>
+                            @endforeach
+                            {{-- <input type="text" class="form-control" name="benefit_list[]" id="" placeholder=" Benefits list"> --}}
                         </div>
                         <div id="benefit" class=""></div>
                         <div class="mb-3">
@@ -246,7 +253,7 @@
             $('#add-benefit').on('click', function() {
                 let benefit = $('#benefit');
                 let data = `<div class="benefit-list mb-3 mt-3">
-                        <input type="text" class="form-control" name="benefit_list[]" placeholder="Benefits list" style="display: inline-block; margin-right: -58px">
+                        <input type="text" class="form-control" name="benefit_list[]" placeholder="Benefits list" style="display: inline-block; margin-right: -58px" required>
                         <span class="remove-benefit btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
                     </div>`;
 
