@@ -114,7 +114,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Quote Two</label>
-                    <input type="text" class="form-control" name="quote_two" id="" placeholder="Quote">
+                    <input type="text" class="form-control" name="quote_two" id="" placeholder="Quote"  value="{{ $landing?->quote_two }}">
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label"> Image (customer feedback)</label>
@@ -132,7 +132,7 @@
                                         <div class="item mb-4">
                                             <img src="{{ asset('uploads/landing/'.$data) }}" class="img-fluid rounded shadow-sm " alt="Prescription Image">
                                             <div class="icons">
-                                                <a href=""class=" " title="Delete"><i class="fas fa-trash"></i></a>
+                                                <a href="{{ route('feedback_image.delete',$data) }}" class="" title="Delete"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </div>
                                     @endforeach
@@ -199,6 +199,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Current Image:</label> <br>
+                                    <img src="{{ asset('uploads/landing/'.$landing?->product_image) }}" class="mt-3" id="" alt="" width="100%" height="auto" />
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="" class="form-label mt-2"> Preview:</label> <br>
@@ -208,16 +209,16 @@
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" name="product_name" id="" placeholder="Product Name" >
+                            <input type="text" class="form-control" name="product_name" id="" placeholder="Product Name"  value="{{ $landing?->product_name }}">
                         </div>
                         <div class="col-4">
                             <label for="" class="form-label">Product Price</label>
-                            <input type="number" class="form-control" name="product_price" id="" placeholder="Product Price" >
+                            <input type="number" class="form-control" name="product_price" id="" placeholder="Product Price" value="{{ $landing?->product_price }}">
                         </div>
                     </div>
                 </div>
                 <div class="mb-3 mt-5 text-center">
-                    <button class="btn btn-primary " >Create</button>
+                    <button class="btn btn-primary " >{{ $landing ? 'Update' : 'Create' }}</button>
                 </div>
             </form>
         </div>

@@ -64,23 +64,23 @@
 </style>
   </head>
   <body class="font-anek">
+    @php
+        $landing = App\Models\LandingPage::find(1);
+        $feedback = explode(',', $landing?->feedback_image);
+        $benefitLists = App\Models\BenefitList::where('landing_page_id',$landing?->id)->get();
+    @endphp
     <section class="bg-green-500">
       <div class="max-w-[1200px] w-full mx-auto py-8 px-4">
         <h1
           class="text-center text-[30px] sm:text-[40px] md:text-[50px] font-bold text-white leading-tight"
         >
-          ঔষধ ছাড়াই গ্যাস্ট্রিক ও কোষ্ঠকাঠিন্য নিয়ন্ত্রণ করুন সম্পন্ন
-          প্রাকৃতিক উপায়ে গ্যাস্ট্রিক ও কোষ্ঠকাঠিন্য থেকে স্থায়ীভাবে মুক্তি
+          {{ $landing?->header }}
         </h1>
 
         <h3
           class="max-w-[980px] w-full text-center mx-auto text-[20px] sm:text-[26px] md:text-[30px] font-semibold leading-[30px] sm:leading-[36px] md:leading-[46px] text-white mt-10"
         >
-          ত্রিফলা রস সেবনে জীবন ধ্বংসকারী গ্যাস্টিক ও কোষ্ঠকাঠিন্য নিয়ন্ত্রণ
-          করুন। একাধিক উপকারিতা সম্পন্ন ত্রিফলার রস যাতে রয়েছে প্রচুর পরিমাণে
-          ফাইবার, খনিজ, গ্লুকোসাইড, ভিটামিন ও এন্টিঅক্সিডেন্ট এর মত রোগ
-          প্রতিরোধকারী শক্তিশালী উপাদান যা নিয়ম মেনে সেবন করলে ম্যাজিকের মতো
-          কাজ করবে
+          {{ $landing?->short_description }}
         </h3>
 
         <div class="flex justify-center pt-8">
@@ -98,7 +98,7 @@
         <h2
           class="bg-[#00b294] text-center py-4 text-white text-[20px] sm:text-[22px] font-semibold rounded-md"
         >
-        কেন আপনি এই প্রোডাক্ট নিবেন ?
+        {{ $landing?->quote_one }}
         </h2>
 
         <div
@@ -115,15 +115,23 @@
               allowfullscreen
             >
             </iframe> --}}
-            <iframe class="w-full aspect-square rounded-md"  src="https://www.youtube.com/embed/jEQoEKMZ7Qc?si=slkFXIlIjzXnb6La" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-            </iframe>
+            @if($landing?->youtube_link)
+                {!! $landing?->youtube_link !!}
+            @endif
+            @if ($landing?->video)
+                <video class="mt-3"  width="90%" height="auto" controls >
+                    <source src="{{ asset('uploads/landing/'.$landing->video) }}" type="video/mp4">
+                    <source src="{{ asset('uploads/landing/'.$landing->video) }}" type="video/ogg">
+                </video>
+            @endif
           </div>
 
           <!-- Right: Image -->
           <div class="w-full md:w-1/2">
+
             <img
               class="w-full rounded-md"
-              src="https://harbalhomesbd.com/wp-content/uploads/2024/02/16.48.31_756717e3-1536x1536.jpg"
+              src="{{ asset('uploads/landing/'.$landing?->image) }}"
               alt="Product Image"
             />
           </div>
@@ -137,37 +145,21 @@
         <h2
           class="bg-[#00b294] text-center py-4 text-white text-[20px] sm:text-[22px] font-semibold rounded-md"
         >
-          কেনো আপনার ত্রিফলা রস খাওয়া দরকার ?
+        {{ $landing?->quote_two }}
         </h2>
         <div
           class="flex flex-col md:flex-row justify-between items-center gap-6 pt-6"
         >
-          <!-- First Image -->
-          <div class="w-full md:w-1/3">
-            <img
-              class="w-full rounded-md"
-              src="https://harbalhomesbd.com/wp-content/uploads/2024/02/420147677_382220250981856_8647783659330261448_n.jpg"
-              alt="Review 1"
-            />
+        @foreach ($feedback as $data )
+            <div class="w-full md:w-1/3">
+                <img
+                class="w-full rounded-md"
+                src="{{ asset('uploads/landing/'.$data) }}"
+                alt="Review 1"
+                />
           </div>
+        @endforeach
 
-          <!-- Second Image -->
-          <div class="w-full md:w-1/3">
-            <img
-              class="w-full rounded-md"
-              src="https://harbalhomesbd.com/wp-content/uploads/2024/02/reviw3.jpg"
-              alt="Review 2"
-            />
-          </div>
-
-          <!-- Third Image -->
-          <div class="w-full md:w-1/3">
-            <img
-              class="w-full rounded-md"
-              src="https://harbalhomesbd.com/wp-content/uploads/2024/02/reviw.jpg"
-              alt="Review 3"
-            />
-          </div>
         </div>
       </div>
     </section>
@@ -253,9 +245,10 @@
           <h2
             class="text-[#00C181] text-[35px] leading-[50px] font-semibold mb-6"
           >
-            আমাদের উপর কেন আস্থা রাখবেন?
+            {{ $landing?->benefit_title }}
           </h2>
           <ul class="space-y-4 font-semibold">
+            @foreach($benefitLists as $benefit)
             <li class="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -272,67 +265,11 @@
                 />
               </svg>
               <span class="text-black text-[20px] font-normal">
-                সম্পূর্ণ হাইজেনিক মেনটেন করে তৈরি করা হয়।
+               {{ $benefit->list }}
               </span>
             </li>
-            <li class="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-green-500 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <span class="text-black text-[20px] font-normal">
-                সম্পূর্ণ কেমিক্যাল মুক্ত প্রাকৃতিক ভেষজ উপাদানে তৈরি।
-              </span>
-            </li>
-            <li class="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-green-500 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <span class="text-black text-[20px] font-normal">
-                ত্রিফলা রস সেবনের তিন থেকে সাত দিনের মধ্যে সমাধান পেতে শুরু
-                করবেন।
-              </span>
-            </li>
-            <li class="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-green-500 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <span class="text-black text-[20px] font-normal">
-                কাজ না হলে 100% টাকা ফেরত।
-              </span>
-            </li>
+            @endforeach
+
           </ul>
         </div>
 
@@ -343,7 +280,7 @@
           >
             <img
               class="w-full h-auto"
-              src="https://harbalhomesbd.com/wp-content/uploads/2024/02/16.48.31_cdf9591a.jpg"
+              src="{{ asset('uploads/landing/'.$landing?->benefit_image) }}"
               alt="Product Image"
             />
           </div>
@@ -361,14 +298,12 @@
           <h2
             class="text-2xl sm:text-3xl md:text-4xl font-bold py-4 sm:py-6 md:py-8"
           >
-            সেবন বিধি:
+            {{ $landing?->uses_title }}
           </h2>
           <p
             class="mb-8 sm:mb-12 md:mb-16 w-full sm:w-[600px] md:w-[750px] lg:w-[900px] text-[18px] sm:text-[24px] md:text-[30px] font-semibold leading-[32px] sm:leading-[40px] md:leading-[46px]"
           >
-            গ্রিফলা রস বোতলটি ভালো করে ঝাঁকুনি দিয়ে দুই চামচ আধা গ্লাস পানিতে
-            মিশিয়ে সকালে ও রাতে খাওয়া পর সেবন করবেন এবং মিশ্রিত শরবত এক চামচ
-            এক গ্লাস পানিতে ভিজিয়ে রেখে সকালে খালি পেটে খাবেন।
+            {{ $landing?->uses }}
           </p>
           <p class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
             অর্ডার করতে সঠিক আপনার সঠিক তথ্য দিয়ে নিচের ফর্মটি পূরণ করুন👇
@@ -480,19 +415,20 @@
               class="grid grid-cols-2 items-center mb-2 border-b border-dashed border-gray-300 pb-2"
             >
               <div class="flex items-center space-x-3">
+
                 <img
-                  src="https://harbalhomesbd.com/wp-content/uploads/2024/02/Add-a-heading-13-300x300.png"
+                  src="{{  asset('uploads/landing/'.$landing->product_image) }}"
                   alt="Product Image"
                   class="w-16 h-16 object-cover rounded-lg"
                 />
                 <div class="flex justify-between">
                   <h3 class="text-[0.95em] font-semibold">
-                    গ্রিফলা প্লাস ও মিশ্রিত শরবত
+                   {{ $landing->product_name }}
                   </h3>
                 </div>
               </div>
               <p class="font-semibold text-right">
-                <span class="text-sm mr-4">× 1</span> ৳ 999.00
+                <span class="text-sm mr-4">× 1</span> ৳ {{ $landing->product_price }}.00
               </p>
             </div>
 
@@ -501,13 +437,13 @@
               class="grid grid-cols-2 mb-2 border-b border-dashed border-gray-300 pb-2"
             >
               <p class="font-normal text-[#004A7C]">Subtotal</p>
-              <p class="font-normal text-right">৳ 999.00</p>
+              <p class="font-normal text-right">৳ {{ $landing->product_price }}.00</p>
             </div>
 
             <!-- Total -->
             <div class="grid grid-cols-2">
               <p class="font-semibold text-[#004A7C]">Total</p>
-              <p class="font-semibold text-right text-base">৳ 999.00</p>
+              <p class="font-semibold text-right text-base">৳ {{ $landing->product_price }}.00</p>
             </div>
           </div>
 
@@ -528,13 +464,13 @@
           <p class="text-sm font-normal text-[#777] text-justify">
             Your personal data will be used to process your order, support your
             experience throughout this website, and for other purposes described
-            in our
-            <a
+            in our privacy policy.
+            {{-- <a
               href="https://harbalhomesbd.com/?page_id=3"
               target="_blank"
               class="text-red-500 underline"
               >privacy policy</a
-            >.
+            >. --}}
           </p>
 
           <!-- Submit Button -->

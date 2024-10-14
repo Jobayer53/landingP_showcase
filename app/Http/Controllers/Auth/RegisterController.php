@@ -21,7 +21,10 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    // use RegistersUsers;
+    public function showRegistrationForm(){
+        return redirect(route(''));
+    }
 
     /**
      * Where to redirect users after registration.

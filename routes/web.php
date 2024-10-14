@@ -39,5 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/lading-page/store',[landingPageController::class, 'store'])->name('landing-page.store');
     //benefit list
     Route::post('/benefit/list/delete', [landingPageController::class, 'benefit_list_delete'])->name('benefit-list.delete');
+    //feedback image delete
+    Route::get('/feedback-image/delete/{data}', [landingPageController::class, 'feedback_image_delete'])->name('feedback_image.delete');
 
 });

@@ -45,6 +45,7 @@ class landingPageController extends Controller
         }
         if($request->yt_link){
             $landing->youtube_link = $request->yt_link;
+
             if($landing->video){
                 unlink(public_path('uploads/landing/'.$landing->video));
             }
@@ -97,6 +98,7 @@ class landingPageController extends Controller
         }
         $landing->product_name = $request->product_name;
         $landing->product_price = $request->product_price;
+
         $landing->save();
          // benefit list
          $benefitLists = $request->input('benefit_list', []);
@@ -123,8 +125,10 @@ class landingPageController extends Controller
                  'list' => $benefit
              ]);
          }
+
         flash()->option('position', 'top-right')->success('Landing Page Data'.($x?' Created':' Updated').' Successfully');
         return back();
+
 
 
     }
@@ -134,6 +138,35 @@ class landingPageController extends Controller
         $benefit->delete();
         flash()->option('position', 'top-right')->success('Benefit Deleted Successfully');
         return back();
+    }
+    public function feedback_image_delete($data){
+        $landing = LandingPage::findOrFail(1); // Fetch the record based on ID
+
+        $imageNameToDelete = $data; // Get the image name from the request
+
+        if ($landing->feedback_image) {
+            $existingImages = explode(',', $landing->feedback_image); // Convert string to array
+            $filteredImages = array_filter($existingImages, function($image) use ($imageNameToDelete) {
+                return $image != $imageNameToDelete; // Remove the specified image from the array
+            });
+
+            if (count($existingImages) != count($filteredImages)) {
+                $landing->feedback_image = implode(',', $filteredImages); // Convert array back to string
+                $landing->save(); // Save the updated record
+
+                // Optionally, delete the file from the server
+                $file_path = public_path('uploads/landing/') . $imageNameToDelete;
+                if (file_exists($file_path)) {
+                    unlink($file_path);
+                }
+                flash()->option('position', 'top-right')->success('Feedback Image Deleted Successfully');
+                return back();
+            } else {
+                return back()->with('error', 'Image not found.');
+            }
+        }
+
+        return back()->with('error', 'No images found.');
     }
 
 }
