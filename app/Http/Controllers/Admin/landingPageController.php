@@ -12,7 +12,7 @@ class landingPageController extends Controller
     public function index(){
         $landing = LandingPage::find(1);
         $feedback = explode(',', $landing?->feedback_image);
-        $benefitLists = BenefitList::where('landing_page_id',$landing->id)->get();
+        $benefitLists = BenefitList::where('landing_page_id',$landing?->id)->get();
         // dd($feedback);
         return view('dashboard.pages.landing_page.index',[
             'landing' => $landing,
@@ -128,4 +128,12 @@ class landingPageController extends Controller
 
 
     }
+
+    public function benefit_list_delete(Request $request){
+        $benefit = BenefitList::find($request->benefit_id);
+        $benefit->delete();
+        flash()->option('position', 'top-right')->success('Benefit Deleted Successfully');
+        return back();
+    }
+
 }

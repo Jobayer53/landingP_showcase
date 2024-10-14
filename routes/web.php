@@ -37,5 +37,7 @@ Route::middleware(['auth'])->group(function () {
     //landing page
     Route::get('/lading-page',[landingPageController::class, 'index'])->name('landing-page.index');
     Route::post('/lading-page/store',[landingPageController::class, 'store'])->name('landing-page.store');
+    //benefit list
+    Route::post('/benefit/list/delete', [landingPageController::class, 'benefit_list_delete'])->name('benefit-list.delete');
 
 });

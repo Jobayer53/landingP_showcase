@@ -152,22 +152,22 @@
                         <div  class="mb-3">
                             <label for="" class="form-label">Benefits List</label>
                             @foreach ($benefitLists as $benefit)
-                            <div class="benefit-list mb-3 mt-3">
-                                <input type="hidden" name="benefit_id[]" value="{{ $benefit->id }}">
-                                <input type="text" class="form-control" name="benefit_list[]" value="{{ $benefit->list }}" required style="display: inline-block; margin-right: -58px;">
-                                <span data-value="{{  }}" class="removeList btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
-                            </div>
+                                <div class="benefit-list mb-3 mt-3">
+                                    <input type="hidden" name="benefit_id[]" value="{{ $benefit->id }}">
+                                    <input type="text" class="form-control" name="benefit_list[]" value="{{ $benefit->list }}" required style="display: inline-block; margin-right: -58px;">
+                                    <span data-value="{{ $benefit->id }}" class="removeList btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
+                                </div>
                             @endforeach
                             {{-- <input type="text" class="form-control" name="benefit_list[]" id="" placeholder=" Benefits list"> --}}
                         </div>
                         <div id="benefit" class=""></div>
                         <div class="mb-3">
-                            <span id="add-benefit" class="btn btn-primary btn-sm float-end">Add</span>
+                            <span id="add-benefit" class="btn btn-primary btn-sm float-end">Add List</span>
                         </div>
 
                     </div>
                     <div class="col-lg-6">
-                        <div class="    ">
+                        <div class="">
                             <label for="" class="form-label me-4">Benefit Image </label>
                             <input  type="file" class=" upload3 form-control" name="benefit_image" onchange="document.getElementById('blah3').src = window.URL.createObjectURL(this.files[0])" >
                             <div class="row">
@@ -185,11 +185,11 @@
                </div>
                <div class="mb-3">
                     <label for="" class="form-label me-4">Uses Title </label>
-                    <input  type="text" class=" form-control" name="uses_title" >
+                    <input  type="text" class=" form-control" name="uses_title" value="{{ $landing?->uses_title }}" >
                 </div>
                <div class="mb-3">
                     <label for="" class="form-label me-4">Uses  </label>
-                   <textarea class="form-control" name="uses" id="" cols="30" rows="7" placeholder="Uses"></textarea>
+                   <textarea class="form-control" name="uses" id="" cols="30" rows="7" placeholder="Uses">{{ $landing?->uses }}</textarea>
                 </div>
                 <div class="form-group">
                     <div class="row">
@@ -217,14 +217,17 @@
                     </div>
                 </div>
                 <div class="mb-3 mt-5 text-center">
-                    <button class="btn btn-primary " >Add</button>
+                    <button class="btn btn-primary " >Create</button>
                 </div>
             </form>
         </div>
        </div>
     </div>
 </div>
-
+<form class="d-none" id="deleteList" action="{{ route('benefit-list.delete') }}" method="post">
+    @csrf
+    <input type="hidden" name="benefit_id" id="benefit_id">
+</form>
 @endsection
 @section('script')
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
@@ -262,6 +265,12 @@
             // remove benefits list
             $('#benefit').on('click', '.remove-benefit', function() {
                 $(this).closest('.benefit-list').remove();
+            });
+            $('.removeList').on('click', function() {
+                let id = $(this).data('value');
+                let form = $('#deleteList');
+                form.find('input[name=benefit_id]').val(id);
+                form.submit();
             });
             // upload image preview
             $(".upload").change(function() {
